@@ -1,11 +1,23 @@
-.container {
+#container {
+  text-align: center;
+  margin-top: 50px;
+  font-size: larger;
+  font-family: monospace;
+  line-height: 1.6;
+}
+
+#header {
+  text-align: center;
+  font-size: xx-large;
 }
 
 button {
   padding: 10px;
-  margin-left: 41%;
   cursor: pointer;
   font-size: 24px;
   background-color: seagreen;
   color: white;
+}
+
+#question-text {
 }
