@@ -2,33 +2,36 @@ var startButton = document.querySelector("#start-game-button");
 var questionText = document.querySelector("#container");
 var answerContainer = document.querySelector("#answer-container")
 var header = document.querySelector("#header");
+var resetBtnLocation = document.querySelector("#reset-button-location");
 var questions = [
-{prompt: "Why?",
-choices: ["A", "B", "C", "D"],
-answer: "A",
+{prompt: "What does D stand for in DOM?",
+choices: ["Document", "Display", "Download", "Dunder"],
+answer: "Document",
 },
-{prompt: "How?",
-choices: ["A", "B", "C", "D"],
-answer: "B",
+{prompt: "What symbol references an ID in CSS and Javascript?",
+choices: ["%", "#", "&", "@"],
+answer: "#",
 },
-{prompt: "Who?",
-choices: ["A", "B", "C", "D"],
-answer: "C",
+{prompt: "Which of these is NOT a Primitive Type",
+choices: ["Boolean", "String", "Reference", "Number"],
+answer: "Reference",
 }
 ];
-var secondsLeft = 75;
+var secondsLeft = 60;
 var i=0;
+var initialsArray = []
+var scoresArray = []
 // var r=1;
 
 //this is my function that starts when you click the start button
 function startQuiz() {
  //this is my time in the header
-//  questionText.setAttribute("class", "hide");
  var timerInterval = setInterval(function() {
     secondsLeft--;
     header.textContent = secondsLeft;
     if(secondsLeft === 0) {
         clearInterval(timerInterval);
+        questionText.textContent = "GAME OVER!";
       }}, 1000)
 //this is what shows in the container
 displayQuestion();
@@ -63,20 +66,37 @@ displayQuestion();
     i++;
 displayQuestion();
   }
-}
+};
+
 
 function gameComplete (){
-  console.log("yup");
   questionText.textContent = "";
-  // if (i >= questions.length) {
-  //   gameComplete();
-  // }
     var score = document.createElement("h1")
     score.textContent = "All Done!! Your Score was " + secondsLeft;
     answerContainer.appendChild(score);
+    
+    var initials = window.prompt("Great Job!! Your score was " + secondsLeft + ". Enter your initials to log your score", "Initials Here");
+    initialsArray.push(initials);
+    scoresArray.push(secondsLeft);
+    localStorage.setItem("initials", JSON.stringify(initialsArray))
+    localStorage.setItem("score", JSON.stringify(scoresArray))
+    showHighScores()
+};
+
+function showHighScores() {
+    var highScoresList = document.createElement("span");
+    var resetBtn = document.createElement("button");
+    var firstInitial = JSON.parse(localStorage.getItem("initials"));
+  var firstScore = JSON.parse(localStorage.getItem("score"));
+  highScoresList.textContent = firstInitial + "   ///   " + firstScore;
+  resetBtn.textContent = "RESET";
+  highScoresList.setAttribute("style", "font-size:larger; font-weight:bolder;")
+  answerContainer.appendChild(highScoresList);
+  resetBtnLocation.appendChild(resetBtn);
 }
 
 startButton.addEventListener("click", startQuiz);
+resetBtn.addEventListener("click", window.location.reload);
 
 //JS
 //Data - Questions
